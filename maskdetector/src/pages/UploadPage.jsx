@@ -21,9 +21,9 @@ const UploadPage = () => {
     try {
       const token = await user.getIdToken();
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append('image_name', file);
 
-      const response = await fetch('http://localhost:8080/api/upload', {
+      const response = await fetch('http://localhost:5000/predict', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -32,7 +32,18 @@ const UploadPage = () => {
       });
 
       if (response.status === 200) {
-        navigate(`/result/${Date.now()}`);
+        const data = await response.json();
+        if (data.status === 'success') {
+          // Pass the base64 image and filename to ResultPage via navigation state
+          navigate(`/result/${Date.now()}`, {
+            state: {
+              resultImage: data.image_base64,
+              filename: data.output_filename,
+            },
+          });
+        } else {
+          console.error('Upload failed:', data.message);
+        }
       } else {
         console.error('Upload failed:', response.statusText);
       }
