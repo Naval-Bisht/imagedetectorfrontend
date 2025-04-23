@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../components/AuthProvider';
-
+import { Header } from './Header';
+import { Footer } from './Footer';
 const HistoryPage = () => {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -32,7 +33,8 @@ const HistoryPage = () => {
 
   if (loading) return <div className="flex justify-center items-center h-screen">Loading...</div>;
 
-  return (
+  return ( <>
+    <Header />
     <div className="min-h-screen bg-gray-100 p-6">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-2xl font-bold mb-6">Search History</h1>
@@ -51,7 +53,8 @@ const HistoryPage = () => {
           )}
         </div>
       </div>
-    </div>
+    </div><Footer />
+    </>
   );
 };
 

@@ -1,7 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../components/AuthProvider';
-
+import { Header } from './Header';
+import { Footer } from './Footer';
 const UploadPage = () => {
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
@@ -42,7 +43,8 @@ const UploadPage = () => {
     }
   };
 
-  return (
+  return ( <>
+    <Header />
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h1 className="text-2xl font-bold mb-6">Upload Image</h1>
@@ -60,7 +62,8 @@ const UploadPage = () => {
           {uploading ? "Uploading..." : "Upload"}
         </button>
       </div>
-    </div>
+    </div><Footer />
+    </>
   );
 };
 

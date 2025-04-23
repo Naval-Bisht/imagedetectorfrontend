@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { auth } from '../firebase';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-
+import { Header } from './Header';
+import { Footer } from './Footer';
 const LoginPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/dashboard";
+  const [showLoginBT,setShowLoginBT] = useState(true)
 
   const handleGoogleLogin = async () => {
     try {
@@ -19,6 +21,8 @@ const LoginPage = () => {
   };
 
   return (
+    <>
+    <Header   loginBT={showLoginBT}  />
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md">
         <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
@@ -33,6 +37,8 @@ const LoginPage = () => {
         </button>
       </div>
     </div>
+    <Footer />
+    </>
   );
 };
 
