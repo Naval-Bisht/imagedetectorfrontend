@@ -111,29 +111,19 @@ pipeline {
             }
         }
     }
-
     post {
-        always {
-            agent any
-            steps {   // Use 'any' instead of 'master' for flexibility
-                script {
-                    // Clean up Docker images
-                    sh """
-                        docker rmi -f ${FRONTEND_IMAGE}:${env.BUILD_NUMBER} || true
-                        docker rmi -f ${FRONTEND_IMAGE}:latest || true
-                        docker rmi -f ${BACKEND_IMAGE}:${env.BUILD_NUMBER} || true
-                        docker rmi -f ${BACKEND_IMAGE}:latest || true
-                    """
-                    cleanWs() // Clean workspace
-                }
-                // Send email notification
-                emailext (
-                    subject: "Build ${currentBuild.fullDisplayName} - ${currentBuild.result}",
-                    body: """Build status: ${currentBuild.result}
-                             Check details here: ${env.BUILD_URL}""",
-                    to: "${EMAIL_RECIPIENT}"
-                )
-            }
-        }
+    success {
+        echo 'Pipeline completed successfully!'
+        mail to: "${EMAIL_RECIPIENT}",
+            subject: "✅ Jenkins Pipeline Success: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+            body: "The pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER} completed successfully.\nCheck the build at ${env.BUILD_URL}"
     }
+    failure {
+        echo 'Pipeline failed!'
+        mail to: "${EMAIL_RECIPIENT}",
+            subject: "❌ Jenkins Pipeline Failure: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+            body: "The pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER} failed.\nCheck the build at ${env.BUILD_URL}"
+    }
+}
+
 }
