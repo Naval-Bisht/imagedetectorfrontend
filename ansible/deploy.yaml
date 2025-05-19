@@ -44,9 +44,9 @@
   hosts: localhost
   gather_facts: false
   tasks:
-    - name: Apply all Kubernetes YAML files in a directory
+    - name: Finding Kubernetes YAML files
       ansible.builtin.find:
-        paths: "./kubernetes/"
+        paths: "../kubernetes/"
         patterns: "*.yaml"
         recurse: yes
       register: yaml_files
