@@ -114,7 +114,8 @@ pipeline {
 
     post {
         always {
-            node('any') { // Use 'any' instead of 'master' for flexibility
+            agent any
+            steps {   // Use 'any' instead of 'master' for flexibility
                 script {
                     // Clean up Docker images
                     sh """
